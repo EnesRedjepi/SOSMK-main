@@ -78,7 +78,7 @@ function Footer() {
 
           {/* Right: Copyright */}
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © {new Date().getFullYear()} SOSMK. All rights reserved.
+            © {new Date().getFullYear()} SOSMK. All rights reserved!
           </Typography>
         </Toolbar>
       </Container>
