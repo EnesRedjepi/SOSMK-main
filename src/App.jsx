@@ -2,16 +2,23 @@ import Box from "@mui/material/Box";
 import Header from "./components/header";
 import Categories from "./components/categories";
 import Footer from "./components/footer";
+import AppBar from "@mui/material/AppBar";
 
 function App() {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <>
       <Header />
-      <Box sx={{ flexGrow: 1, height: "60vh", marginTop: 5 }}>
+      <Box sx={{ flexGrow: 1, marginTop: 5, marginBottom: 23 }}>
         <Categories />
       </Box>
-      <Footer />
-    </Box>
+      <AppBar
+        position="fixed"
+        component="footer"
+        sx={{ top: "auto", bottom: 0, width: "100%" }}
+      >
+        <Footer />
+      </AppBar>
+    </>
   );
 }
 

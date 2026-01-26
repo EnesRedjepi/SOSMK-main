@@ -37,7 +37,7 @@ function Footer() {
             gap: 1,
           }}
         >
-          {/* Left: Logo + App Name */}
+
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <img
               src={mvrLogo}
@@ -52,7 +52,6 @@ function Footer() {
             </Typography>
           </Box>
 
-          {/* Center: Links */}
           <Stack
             direction="row"
             spacing={2}
@@ -76,7 +75,6 @@ function Footer() {
             ))}
           </Stack>
 
-          {/* Right: Copyright */}
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
             © {new Date().getFullYear()} SOSMK. All rights reserved!
           </Typography>

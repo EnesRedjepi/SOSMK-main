@@ -27,7 +27,7 @@ function Categories() {
           justifyContent: "center",
           alignContent: "center",
           gap: 4,
-          maxWidth: 700, // 4 * 150 + gaps
+          maxWidth: 700,
           mx: "auto",
         }}
       >

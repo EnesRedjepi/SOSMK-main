@@ -81,7 +81,6 @@ function CategoryModal({ open, category, onClose }) {
               You are reporting an incident related to <b>{category?.label}</b>.
             </Typography>
 
-            {/* Description */}
             <TextField
               label="Description"
               multiline
@@ -92,7 +91,6 @@ function CategoryModal({ open, category, onClose }) {
               sx={{ mb: 2 }}
             />
 
-            {/* City */}
             <TextField
               select
               label="City"
@@ -108,7 +106,6 @@ function CategoryModal({ open, category, onClose }) {
               ))}
             </TextField>
 
-            {/* Location */}
             <TextField
               label="Location (street, landmark, etc.)"
               fullWidth
@@ -117,7 +114,6 @@ function CategoryModal({ open, category, onClose }) {
               sx={{ mb: 2 }}
             />
 
-            {/* Share Location */}
             <FormControlLabel
               control={
                 <Switch
@@ -128,7 +124,6 @@ function CategoryModal({ open, category, onClose }) {
               label="Show your location"
             />
 
-            {/* Personal Data */}
             <FormControlLabel
               control={
                 <Switch
