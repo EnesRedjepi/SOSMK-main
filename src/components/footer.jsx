@@ -33,11 +33,10 @@ function Footer() {
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "space-between",
             alignItems: "center",
-            py: { xs: 1, md: 2 }, // smaller height on mobile
+            py: { xs: 1, md: 2 },
             gap: 1,
           }}
         >
-          {/* Desktop / tablet layout */}
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
@@ -88,7 +87,6 @@ function Footer() {
             </Typography>
           </Box>
 
-          {/* Mobile: only one line */}
           <Box
             sx={{
               display: { xs: "flex", md: "none" },
