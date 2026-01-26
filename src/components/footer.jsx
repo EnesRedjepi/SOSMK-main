@@ -33,51 +33,76 @@ function Footer() {
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "space-between",
             alignItems: "center",
-            py: { xs: 3, md: 2 },
+            py: { xs: 1, md: 2 }, // smaller height on mobile
             gap: 1,
           }}
         >
+          {/* Desktop / tablet layout */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <img
+                src={mvrLogo}
+                alt="MVR Logo"
+                style={{ height: 32, width: "auto" }}
+              />
+              <Typography
+                variant="body1"
+                sx={{ fontWeight: 700, letterSpacing: ".15rem" }}
+              >
+                SOSMK
+              </Typography>
+            </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <img
-              src={mvrLogo}
-              alt="MVR Logo"
-              style={{ height: 32, width: "auto" }}
-            />
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 700, letterSpacing: ".15rem" }}
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ flexWrap: "wrap", justifyContent: "center" }}
             >
-              SOSMK
+              {footerLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  underline="hover"
+                  color="inherit"
+                  sx={{ fontSize: "0.9rem" }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 400, letterSpacing: ".15rem" }}
+                  >
+                    {link.label}
+                  </Typography>
+                </Link>
+              ))}
+            </Stack>
+
+            <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              © {new Date().getFullYear()} SOSMK. All rights reserved!
             </Typography>
           </Box>
 
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ flexWrap: "wrap", justifyContent: "center" }}
+          {/* Mobile: only one line */}
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+              width: "100%",
+              justifyContent: "center",
+            }}
           >
-            {footerLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                underline="hover"
-                color="inherit"
-                sx={{ fontSize: "0.9rem" }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{ fontWeight: 400, letterSpacing: ".15rem" }}
-                >
-                  {link.label}
-                </Typography>
-              </Link>
-            ))}
-          </Stack>
-
-          <Typography variant="body2" sx={{ opacity: 0.8 }}>
-            © {new Date().getFullYear()} SOSMK. All rights reserved!
-          </Typography>
+            <Typography
+              variant="body2"
+              sx={{ opacity: 0.8, textAlign: "center" }}
+            >
+              © {new Date().getFullYear()} SOSMK. All rights reserved!
+            </Typography>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
