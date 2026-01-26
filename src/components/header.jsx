@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import mvrLogo from "../assets/mvr_logo.png";
 
 const pages = ["Home", "Reports", "Emergency", "Settings", "About us"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard", "Logout", "Coming Soon"];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
