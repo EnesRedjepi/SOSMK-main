@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,6 +11,8 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera"; // npm install @mui/icons-material
 import { cities, emergencyNumbers } from "../utils/constants";
 
 function CategoryModal({ open, category, onClose }) {
@@ -23,7 +25,13 @@ function CategoryModal({ open, category, onClose }) {
     name: "",
     surname: "",
     phone: "",
+    image: null, // New: image file or base64
   });
+
+  const [cameraOpen, setCameraOpen] = useState(false); // Camera choice dialog
+  const [imagePreview, setImagePreview] = useState(""); // Preview URL
+  const fileInputRef = useRef(null);
+  const videoRef = useRef(null);
 
   if (!category) return null;
 
@@ -32,8 +40,42 @@ function CategoryModal({ open, category, onClose }) {
       event.target.type === "checkbox"
         ? event.target.checked
         : event.target.value;
-
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const openCameraChoice = () => setCameraOpen(true);
+  const closeCameraChoice = () => setCameraOpen(false);
+
+  const openGallery = () => {
+    fileInputRef.current?.click();
+    closeCameraChoice();
+  };
+
+  const openCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        // Add capture button logic here if you want live camera capture
+        // For now, it opens gallery as fallback
+      }
+    } catch (err) {
+      console.log("Camera access denied, using gallery");
+    }
+    fileInputRef.current?.click();
+    closeCameraChoice();
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setForm((prev) => ({ ...prev, image: e.target.result })); // base64
+        setImagePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = () => {
@@ -50,17 +92,45 @@ function CategoryModal({ open, category, onClose }) {
             phone: form.phone,
           }
         : null,
+      image: form.image, // Include image
     };
-
     console.log("SUBMIT REPORT:", payload);
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{category?.label}</DialogTitle>
+      <DialogTitle>
+        {category?.label}
+        <IconButton
+          onClick={openCameraChoice}
+          sx={{ position: "absolute", right: 72, top: 16 }}
+          color="primary"
+        >
+          <PhotoCamera />
+        </IconButton>
+      </DialogTitle>
+
       <DialogContent dividers>
+        {imagePreview && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="caption">Photo preview:</Typography>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{
+                width: "100%",
+                height: 150,
+                objectFit: "cover",
+                borderRadius: 8,
+              }}
+            />
+          </Box>
+        )}
+
+        {/* Rest of your existing content */}
         {category.id === "emergencyCall" ? (
+          // Emergency numbers unchanged
           <Box>
             <Typography variant="body1" sx={{ mb: 2 }}>
               Emergency numbers of North Macedonia:
@@ -91,6 +161,7 @@ function CategoryModal({ open, category, onClose }) {
               sx={{ mb: 2 }}
             />
 
+            {/* All other fields unchanged */}
             <TextField
               select
               label="City"
@@ -162,19 +233,44 @@ function CategoryModal({ open, category, onClose }) {
         )}
       </DialogContent>
 
-      {category.id != "emergencyCall" ? (
+      {/* Camera choice dialog */}
+      <Dialog open={cameraOpen} onClose={closeCameraChoice}>
+        <DialogTitle>Choose photo source</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              startIcon={<PhotoCamera />}
+              onClick={openCamera}
+            >
+              Camera
+            </Button>
+            <Button variant="outlined" fullWidth onClick={openGallery}>
+              Gallery
+            </Button>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeCameraChoice}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageUpload}
+      />
+
+      {category.id !== "emergencyCall" && (
         <DialogActions>
           <Button onClick={onClose} color="inherit">
             Cancel
           </Button>
           <Button variant="contained" onClick={handleSubmit}>
             Send Report
-          </Button>
-        </DialogActions>
-      ) : (
-        <DialogActions>
-          <Button onClick={onClose} color="inherit">
-            Cancel
           </Button>
         </DialogActions>
       )}
